@@ -19,7 +19,7 @@ public interface UserMapper {
      * 批量插入（excel）
      * @param users
      */
-    void insertUser(List<User> users);
+    void insertUser(List<User> user);
 
     /**
      * 获取ID（word）
@@ -55,5 +55,10 @@ public interface UserMapper {
      * @param idCard
      * @return
      */
-    UserDto getUserInfoByIdCard(String idCard);
+    User getUserInfoByIdCard(String idCard);
+
+
+
+    List<User> findById(Integer id);
+
 }

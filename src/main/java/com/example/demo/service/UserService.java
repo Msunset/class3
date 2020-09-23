@@ -18,7 +18,7 @@ public interface UserService {
 
     /**
      * 批量插入到数据库
-     * @param users
+     * @param user
      */
     void saveData(List<User> users);
 
@@ -26,7 +26,7 @@ public interface UserService {
      * 获取ID
      * @param user
      */
-    void getUserInfo(UserVo user);
+    String getUserInfo(UserVo user);
 
 
     /**
@@ -34,21 +34,30 @@ public interface UserService {
      * @param user
      */
     String addUser(User user);
-
-
     /**
      * 删除用户信息
      * @param user
      */
     String   deleteUser(User user);
-
-
     /**
      * 修改用户
      * @param user
      * @return
      */
     String updateUser(User user);
+    /**
+     * 分页查询
+     * @param
+     * @return
+     */
+    /**
+     * 根据id查询用户
+     * @param user
+     * @return
+     */
+    List<User> findById(User user);
+
+
 
 
 }

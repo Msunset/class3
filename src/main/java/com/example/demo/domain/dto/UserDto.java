@@ -7,7 +7,6 @@ import lombok.Data;
 
 @Data
 public class UserDto {
-
     private String date;
     private String name;
     private String sex;

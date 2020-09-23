@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -26,6 +28,7 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
 
     /**
      * 查询所有用户列表
@@ -50,6 +53,7 @@ public class UserController {
             private static final int BATCH_COUNT = 3000;
             List<User> list = new ArrayList<User>();
 
+
             @Override
             public void invoke(User user, AnalysisContext analysisContext) {
                 list.add(user);
@@ -63,9 +67,14 @@ public class UserController {
             }
 
             private void saveData() {
+
+
                 userService.saveData(list);
             }
         }).sheet().doRead();
+
+
+
         return "导入成功";
     }
 
@@ -78,12 +87,11 @@ public class UserController {
     @PostMapping("/word")
     @ApiOperation("模板打印")
     public String word(@RequestBody UserVo user ) throws IOException {
-
-        userService.getUserInfo(user);
-        return "success";
-
+        return userService.getUserInfo(user);
 
     }
+
+
 
     /**
      * 添加用户
@@ -124,8 +132,16 @@ public class UserController {
     public String updateUser(@RequestBody User user){
 
        return userService.updateUser(user);
+    }
+
+    @PostMapping("/findbyid")
+    @ApiOperation("根据id查找")
+    public List<User> findById(@RequestBody User user){
 
 
+       return userService.findById(user);
 
     }
+
+
 }

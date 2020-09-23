@@ -12,6 +12,7 @@ import freemarker.template.Version;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -30,10 +31,14 @@ public class UserServiceImpl implements UserService {
     @Value("${source.url}")
     private String SOURCE_URL;
 
+    @Value("${baseUrl}")
+    private String baseUrl;
+
     @Autowired
     private UserMapper userMapper;
 
-
+//    @Autowired
+//    private User user;
     /**
      * 查找所有用户
      * @return
@@ -44,15 +49,22 @@ public class UserServiceImpl implements UserService {
         return userMapper.findUser();
     }
     /**
-     * 批量插入数据库
+     * excel插入数据库
      * @param users
      */
     @Override
     public void saveData(List<User> users) {
 
-        System.out.println("----");
+
+          Date data = new Date();
+//        user.setCertificateNumber("XB"+new SimpleDateFormat("yyyMMddhhmmss").format(data));
+        for (User user: users) {
+            String s =    "HG"+new SimpleDateFormat("yyyMMddhh").format(data);
+            String ss =(s+((int)(Math.random()*1000)));
+            user.setCertificateNumber(ss);
+        }
         userMapper.insertUser(users);
-        System.out.println("存入成功");
+
 
     }
     /**
@@ -60,22 +72,26 @@ public class UserServiceImpl implements UserService {
      * @param user
      */
     @Override
-    public void getUserInfo(UserVo user) {
-        String s = this.getClass().getResource("/").getPath().replaceFirst("/", "");
+    public String getUserInfo(UserVo user) {
         UserDto userInfo = userMapper.getUserInfo(user.getId());
         userInfo.setDate(new SimpleDateFormat("yyyy年MM月dd日").format(new Date()));
         try {
             Configuration configuration = new Configuration(new Version("2.3.0"));
             configuration.setDefaultEncoding("utf-8");
-            configuration.setDirectoryForTemplateLoading(new File(s+"static"));
-            File outFile = new File(TARGET_URL+"/" + userInfo.getName() + "--" + userInfo.getCertificateNumber() + ".doc");
+            configuration.setDirectoryForTemplateLoading(new File(SOURCE_URL));
+            String name = userInfo.getName() + "--" + userInfo.getCertificateNumber() + ".doc";
+            File outFile = new File(TARGET_URL+"/" + name);
             Template template = configuration.getTemplate("test.ftl", "utf-8");
             Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile), "utf-8"), 10240);
             template.process(userInfo, out);
             out.close();
+            return baseUrl+name;
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return "导出失败";
+
     }
 
         /**
@@ -85,11 +101,15 @@ public class UserServiceImpl implements UserService {
          */
         @Override
         public String addUser (User user){
-            UserDto userInfo = userMapper.getUserInfoByIdCard(user.getIdcard());
+            User userInfo = userMapper.getUserInfoByIdCard(user.getIdcard());
             if (userInfo!=null){
                 return "身份证号重复";
-
             }
+            Date data = new Date();
+            String s = "HG"+(new SimpleDateFormat("yyyMMddhh")).format(data);
+            String ss =(s+((int)(Math.random()*1000)));
+            user.setCertificateNumber(ss);
+
             userMapper.addUser(user);
 
             return "添加成功";
@@ -114,15 +134,29 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public String updateUser(User user) {
-        UserDto userInfo = userMapper.getUserInfoByIdCard(user.getIdcard());
+        User userInfo = userMapper.getUserInfoByIdCard(user.getIdcard());
 //        UserDto userInfoByIdCard = userMapper.getUserInfoByIdCard(user.getIdcard());
 
         if (userInfo!=null){
-            return "修改失败，身份证信息重复";
+            if (userInfo.getId() !=user.getId())
+                return "修改失败，身份证信息重复";
         }
 
         userMapper.updateUser(user);
         return "修改成功";
+    }
+
+    /**
+     * 根据id查找
+     * @param user
+     * @return
+     */
+    @Override
+    public List<User> findById(User user) {
+
+        return  userMapper.findById(user.getId());
+
+
     }
 
 

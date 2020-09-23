@@ -4,16 +4,11 @@
 
 
     <select id="findUser" resultType="com.example.demo.domain.User">
-
         select  id,name,sex,age,jg,record,phone,idcard,certificate_number from user
-
-
-
     </select>
 
     <insert id="insertUser"  parameterType="com.example.demo.domain.User">
         insert into user (name,sex,age,jg,record,phone,idcard,certificate_number)
-
         VALUES
         <foreach collection="list" item="it" separator="," close=";">
             (
@@ -35,14 +30,20 @@
     where `id` = #{id,jdbcType=INTEGER}
     </select>
 
-    <select id="getUserInfoByIdCard" parameterType="java.lang.String"  resultType="com.example.demo.domain.dto.UserDto">
-    select name,sex,idcard,certificate_number certificateNumber
+    <select id="findById" resultType="com.example.demo.domain.User">
+        select  id,name,sex,age,jg,record,phone,idcard,certificate_number
+        from user
+        where id=#{id}
+
+    </select>
+
+    <select id="getUserInfoByIdCard" parameterType="java.lang.String"  resultType="com.example.demo.domain.User">
+    select id,name,sex,idcard,certificate_number certificateNumber
     from user
     where `idcard` = #{idcard}
     </select>
 
     <insert id="addUser" parameterType="com.example.demo.domain.User">
-
         insert into user (name,sex,age,jg,record,phone,idcard,certificate_number)
         VALUES
         (
@@ -58,19 +59,12 @@
     </insert>
 
     <delete id="deleteUser" parameterType="com.example.demo.domain.User">
-
-        delete from user where id=#{id}
-
+        delete  from user where id=#{id}
     </delete>
 
     <update id="updateUser" parameterType="com.example.demo.domain.User">
-
         update user
-
         <trim prefix="set" suffixOverrides=",">
-
-
-
             <if test="name != null">name=#{name,jdbcType=VARCHAR},</if>
             <if test="sex != null">sex=#{sex,jdbcType=VARCHAR},</if>
             <if test="age != null">age=#{age,jdbcType=INTEGER},</if>
@@ -78,7 +72,7 @@
             <if test="record != null">record=#{record,jdbcType=VARCHAR},</if>
             <if test="idcard != null">idcard=#{idcard,jdbcType=VARCHAR},</if>
             <if test="phone != null">phone=#{phone,jdbcType=VARCHAR},</if>
-            <if test="certificateNumber != null">certificate_number=#{certificateNumber,jdbcType=VARCHAR}</if>
+<!--            <if test="certificateNumber != null">certificate_number=#{certificateNumber,jdbcType=VARCHAR}</if>-->
         </trim>
         where
         id=#{id}
