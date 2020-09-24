@@ -4,11 +4,11 @@
 
 
     <select id="findUser" resultType="com.example.demo.domain.User">
-        select  id,name,sex,age,jg,record,phone,idcard,certificate_number from user
+        select  id,name,sex,age,jg,record,phone,idcard,certificate_number,time_one,time_two from user
     </select>
 
     <insert id="insertUser"  parameterType="com.example.demo.domain.User">
-        insert into user (name,sex,age,jg,record,phone,idcard,certificate_number)
+        insert into user (name,sex,age,jg,record,phone,idcard,certificate_number,time_one,time_two)
         VALUES
         <foreach collection="list" item="it" separator="," close=";">
             (
@@ -20,31 +20,33 @@
             #{it.phone,jdbcType=LONGVARCHAR},
             #{it.idcard,jdbcType=LONGVARCHAR},
             #{it.certificateNumber,jdbcType=LONGVARCHAR}
+            #{it.timeOne,jdbcType=DATETIME},
+            #{it.timeTwo,jdbcType=DATETIME}
             )
         </foreach>
     </insert>
 
-    <select id="getUserInfo" parameterType="java.lang.Integer"  resultType="com.example.demo.domain.dto.UserDto">
-    select name,sex,idcard,certificate_number certificateNumber
+    <select id="getUserInfo" parameterType="java.lang.Integer"  resultType="com.example.demo.domain.User">
+    select name,sex,idcard,time_one,certificate_number,time_two
     from user
     where `id` = #{id,jdbcType=INTEGER}
     </select>
 
     <select id="findById" resultType="com.example.demo.domain.User">
-        select  id,name,sex,age,jg,record,phone,idcard,certificate_number
+        select  id,name,sex,age,jg,record,phone,idcard,certificate_number,time_one,time_two
         from user
         where id=#{id}
 
     </select>
 
     <select id="getUserInfoByIdCard" parameterType="java.lang.String"  resultType="com.example.demo.domain.User">
-    select id,name,sex,idcard,certificate_number certificateNumber
+    select id,name,sex,idcard,certificate_number
     from user
     where `idcard` = #{idcard}
     </select>
 
     <insert id="addUser" parameterType="com.example.demo.domain.User">
-        insert into user (name,sex,age,jg,record,phone,idcard,certificate_number)
+        insert into user (name,sex,age,jg,record,phone,idcard,certificate_number,time_one,time_two)
         VALUES
         (
         #{name,jdbcType=VARCHAR},
@@ -55,6 +57,8 @@
         #{phone,jdbcType=VARCHAR},
         #{idcard,jdbcType=VARCHAR},
         #{certificateNumber,jdbcType=VARCHAR}
+        #{timeOne,jdbcType=DATETIME}
+        #{timeTwo,jdbcType=DATETIME}
         )
     </insert>
 
@@ -72,12 +76,26 @@
             <if test="record != null">record=#{record,jdbcType=VARCHAR},</if>
             <if test="idcard != null">idcard=#{idcard,jdbcType=VARCHAR},</if>
             <if test="phone != null">phone=#{phone,jdbcType=VARCHAR},</if>
-<!--            <if test="certificateNumber != null">certificate_number=#{certificateNumber,jdbcType=VARCHAR}</if>-->
+            <if test="certificateNumber != null">certificate_number=#{certificateNumber,jdbcType=VARCHAR}</if>
+            <if test="timeOne != null">time_one=#{timeOne,jdbcType=DATETIME},</if>
+            <if test="timeTwo != null">time_two=#{timeTwo,jdbcType=DATETIME},</if>
         </trim>
         where
         id=#{id}
 
     </update>
+
+    <select id="findname" resultType="com.example.demo.domain.User">
+
+        select id,name,sex,age,jg,record,phone,idcard,certificate_number,time_one,time_two
+
+        from user
+
+        where name =#{name}
+
+
+
+    </select>
 
 
 

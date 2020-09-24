@@ -4,11 +4,12 @@ import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.example.demo.domain.User;
-import com.example.demo.domain.vo.UserVo;
+
 import com.example.demo.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -86,7 +87,7 @@ public class UserController {
      */
     @PostMapping("/word")
     @ApiOperation("模板打印")
-    public String word(@RequestBody UserVo user ) throws IOException {
+    public String word(@RequestBody User user ) throws IOException {
         return userService.getUserInfo(user);
 
     }
@@ -143,5 +144,12 @@ public class UserController {
 
     }
 
+    @PostMapping("/findname")
+    @ApiOperation("根据姓名查询")
+    public List<User> findname(@RequestBody User user){
+
+       return userService.findname(user);
+
+    }
 
 }

@@ -56,13 +56,13 @@ public class UserServiceImpl implements UserService {
     public void saveData(List<User> users) {
 
 
-          Date data = new Date();
-//        user.setCertificateNumber("XB"+new SimpleDateFormat("yyyMMddhhmmss").format(data));
-        for (User user: users) {
-            String s =    "HG"+new SimpleDateFormat("yyyMMddhh").format(data);
-            String ss =(s+((int)(Math.random()*1000)));
-            user.setCertificateNumber(ss);
-        }
+//          Date data = new Date();
+////        user.setCertificateNumber("XB"+new SimpleDateFormat("yyyMMddhhmmss").format(data));
+//        for (User user: users) {
+//            String s =    "HG"+new SimpleDateFormat("yyyMMddhh").format(data);
+//            String ss =(s+((int)(Math.random()*1000)));
+//            user.setCertificateNumber(ss);
+//        }
         userMapper.insertUser(users);
 
 
@@ -72,9 +72,10 @@ public class UserServiceImpl implements UserService {
      * @param user
      */
     @Override
-    public String getUserInfo(UserVo user) {
-        UserDto userInfo = userMapper.getUserInfo(user.getId());
-        userInfo.setDate(new SimpleDateFormat("yyyy年MM月dd日").format(new Date()));
+    public String getUserInfo(User user) {
+        User userInfo = userMapper.getUserInfo(user.getId());
+//        userInfo.setTimeOne(new SimpleDateFormat("yyyy.MM.dd  ").format(user.getTimeOne()));
+//        userInfo.setTimeTwo(new SimpleDateFormat("yyyy   MM   dd").format(user.getTimeTwo()));
         try {
             Configuration configuration = new Configuration(new Version("2.3.0"));
             configuration.setDefaultEncoding("utf-8");
@@ -105,10 +106,10 @@ public class UserServiceImpl implements UserService {
             if (userInfo!=null){
                 return "身份证号重复";
             }
-            Date data = new Date();
-            String s = "HG"+(new SimpleDateFormat("yyyMMddhh")).format(data);
-            String ss =(s+((int)(Math.random()*1000)));
-            user.setCertificateNumber(ss);
+//            Date data = new Date();
+//            String s = "HG"+(new SimpleDateFormat("yyyMMddhh")).format(data);
+//            String ss =(s+((int)(Math.random()*1000)));
+//            user.setCertificateNumber(ss);
 
             userMapper.addUser(user);
 
@@ -154,9 +155,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findById(User user) {
 
+
         return  userMapper.findById(user.getId());
 
 
+    }
+
+
+    /**
+     * 根据姓名查找
+     * @param user
+     * @return
+     */
+    @Override
+    public List<User> findname(User user) {
+
+
+        return userMapper.findname(user.getName());
     }
 
 

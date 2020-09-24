@@ -1,7 +1,7 @@
 package com.example.demo.mapper;
 
 import com.example.demo.domain.User;
-import com.example.demo.domain.dto.UserDto;
+
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -26,7 +26,7 @@ public interface UserMapper {
      * @param id
      * @return
      */
-    UserDto getUserInfo(Integer id);
+    User getUserInfo(Integer id);
 
 
     /**
@@ -58,7 +58,18 @@ public interface UserMapper {
     User getUserInfoByIdCard(String idCard);
 
 
-
+    /**
+     * 根据id查询用户
+     * @param id
+     * @return
+     */
     List<User> findById(Integer id);
+
+    /**
+     * 根据年龄来查询
+     * @param name
+     * @return
+     */
+    List<User> findname(String name);
 
 }

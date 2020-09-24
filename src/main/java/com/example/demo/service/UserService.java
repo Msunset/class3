@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.domain.User;
+
+import com.example.demo.domain.dto.UserDto;
 import com.example.demo.domain.vo.UserVo;
 import org.springframework.stereotype.Repository;
 
@@ -26,7 +28,7 @@ public interface UserService {
      * 获取ID
      * @param user
      */
-    String getUserInfo(UserVo user);
+    String getUserInfo(User user);
 
 
     /**
@@ -58,6 +60,11 @@ public interface UserService {
     List<User> findById(User user);
 
 
-
+    /**
+     * 根据姓名查找
+     * @param user
+     * @return
+     */
+    List<User> findname(User user);
 
 }

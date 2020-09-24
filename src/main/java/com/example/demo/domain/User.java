@@ -2,10 +2,13 @@ package com.example.demo.domain;
 
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.example.demo.domain.dto.UserDto;
 import lombok.Data;
 
+import java.util.Date;
+
 @Data
-public class User {
+public class User  {
 
     private Integer id;
 
@@ -38,8 +41,14 @@ public class User {
     private String idcard;
 
 //    @ExcelProperty(value = "证书编号")
-//    @ExcelProperty(index = 7)
+    @ExcelProperty(index = 7)
     private String certificateNumber;
+
+    @ExcelProperty(index = 8)
+    private Date timeOne;
+
+    @ExcelProperty(index = 9)
+    private Date timeTwo;
 
 }
 
