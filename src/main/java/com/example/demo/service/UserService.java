@@ -22,7 +22,7 @@ public interface UserService {
      * 批量插入到数据库
      * @param user
      */
-    void saveData(List<User> users);
+    void saveData(List<User> user);
 
     /**
      * 获取ID
