@@ -36,7 +36,6 @@
         select  id,name,sex,age,jg,record,phone,idcard,certificate_number,time_one,time_two
         from user
         where id=#{id}
-
     </select>
 
     <select id="getUserInfoByIdCard" parameterType="java.lang.String"  resultType="com.example.demo.domain.User">
@@ -57,8 +56,8 @@
         #{phone,jdbcType=VARCHAR},
         #{idcard,jdbcType=VARCHAR},
         #{certificateNumber,jdbcType=VARCHAR},
-        #{timeOne},
-        #{timeTwo}
+        #{timeOne,jdbcType=TIMESTAMP},
+        #{timeTwo,jdbcType=TIMESTAMP}
         )
     </insert>
 
@@ -85,10 +84,16 @@
 
     </update>
 
-    <select id="findName" resultType="com.example.demo.domain.User">
+    <select id="findname" resultType="com.example.demo.domain.User">
+
         select id,name,sex,age,jg,record,phone,idcard,certificate_number,time_one,time_two
+
         from user
-        where name like '%${name}%'
+
+        where name =#{name}
+
+
+
     </select>
 
 

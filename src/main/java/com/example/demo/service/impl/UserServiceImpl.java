@@ -99,9 +99,7 @@ public class UserServiceImpl implements UserService {
             e.printStackTrace();
         }
         return "导出失败";
-
     }
-
         /**
          *添加用户信息
          * @param user
@@ -117,13 +115,9 @@ public class UserServiceImpl implements UserService {
 //            String s = "HG"+(new SimpleDateFormat("yyyMMddhh")).format(data);
 //            String ss =(s+((int)(Math.random()*1000)));
 //            user.setCertificateNumber(ss);
-
             userMapper.addUser(user);
-
             return "添加成功";
         }
-
-
     /**
      * 删除
      * @param user
@@ -134,8 +128,6 @@ public class UserServiceImpl implements UserService {
             userMapper.deleteUser(user.getId());
             return "删除成功";
     }
-
-
     /**
      * 修改
      * @param user
@@ -144,16 +136,13 @@ public class UserServiceImpl implements UserService {
     public String updateUser(User user) {
         User userInfo = userMapper.getUserInfoByIdCard(user.getIdcard());
 //        UserDto userInfoByIdCard = userMapper.getUserInfoByIdCard(user.getIdcard());
-
         if (userInfo!=null){
             if (!userInfo.getId().equals(user.getId()))
                 return "修改失败，身份证信息重复";
         }
-
         userMapper.updateUser(user);
         return "修改成功";
     }
-
     /**
      * 根据id查找
      * @param user
@@ -161,14 +150,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<User> findById(User user) {
-
-
         return  userMapper.findById(user.getId());
-
-
     }
-
-
     /**
      * 根据姓名查找
      * @param user

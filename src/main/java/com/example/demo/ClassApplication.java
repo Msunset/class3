@@ -39,22 +39,16 @@ public class ClassApplication {
 	}
 
 
-//	public static final int MACHINE_ID = 1;
+
 
 
 	public static String getOrderNumber() {
-//		int machineId = MACHINE_ID;
+
 		int hashCodeV = UUID.randomUUID().toString().hashCode();
 		System.out.println("hashCodeV：" + hashCodeV);
 		if (hashCodeV < 0) {
 			hashCodeV = -hashCodeV;
 		}
-//		 0 代表前面补充0
-//		 4 代表长度为4
-//		 d 代表参数为正整型
-//		edit---20181203 hzj
-//		Date date=new Date();
-//		System.out.println( machineId + String.format("%015d", hashCodeV)+date.getTime());
 
 
 
