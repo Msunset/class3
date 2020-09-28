@@ -4,7 +4,7 @@
 
 
     <select id="findUser" resultType="com.example.demo.domain.User">
-        select  id,name,sex,age,jg,record,phone,idcard,certificate_number,time_one,time_two from user
+        select  id,name,sex,age,jg,record,phone,idcard,certificate_number,time_one,time_two  from user
     </select>
 
     <insert id="insertUser"  parameterType="com.example.demo.domain.User">
@@ -19,9 +19,9 @@
             #{it.record,jdbcType=LONGVARCHAR},
             #{it.phone,jdbcType=LONGVARCHAR},
             #{it.idcard,jdbcType=LONGVARCHAR},
-            #{it.certificateNumber,jdbcType=LONGVARCHAR}
-            #{it.timeOne,jdbcType=DATETIME},
-            #{it.timeTwo,jdbcType=DATETIME}
+            #{it.certificateNumber,jdbcType=LONGVARCHAR},
+            #{it.timeOne,jdbcType=TIMESTAMP},
+            #{it.timeTwo,jdbcType=TIMESTAMP}
             )
         </foreach>
     </insert>
@@ -56,9 +56,9 @@
         #{record,jdbcType=VARCHAR},
         #{phone,jdbcType=VARCHAR},
         #{idcard,jdbcType=VARCHAR},
-        #{certificateNumber,jdbcType=VARCHAR}
-        #{timeOne,jdbcType=DATETIME}
-        #{timeTwo,jdbcType=DATETIME}
+        #{certificateNumber,jdbcType=VARCHAR},
+        #{timeOne},
+        #{timeTwo}
         )
     </insert>
 
@@ -76,25 +76,19 @@
             <if test="record != null">record=#{record,jdbcType=VARCHAR},</if>
             <if test="idcard != null">idcard=#{idcard,jdbcType=VARCHAR},</if>
             <if test="phone != null">phone=#{phone,jdbcType=VARCHAR},</if>
-            <if test="certificateNumber != null">certificate_number=#{certificateNumber,jdbcType=VARCHAR}</if>
-            <if test="timeOne != null">time_one=#{timeOne,jdbcType=DATETIME},</if>
-            <if test="timeTwo != null">time_two=#{timeTwo,jdbcType=DATETIME},</if>
+            <if test="certificateNumber != null">certificate_number=#{certificateNumber,jdbcType=VARCHAR},</if>
+            <if test="timeOne != null">time_one=#{timeOne,jdbcType=TIMESTAMP},</if>
+            <if test="timeTwo != null">time_two=#{timeTwo,jdbcType=TIMESTAMP}</if>
         </trim>
         where
         id=#{id}
 
     </update>
 
-    <select id="findname" resultType="com.example.demo.domain.User">
-
+    <select id="findName" resultType="com.example.demo.domain.User">
         select id,name,sex,age,jg,record,phone,idcard,certificate_number,time_one,time_two
-
         from user
-
-        where name =#{name}
-
-
-
+        where name like '%${name}%'
     </select>
 
 

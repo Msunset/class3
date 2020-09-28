@@ -2,6 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.domain.User;
 import com.example.demo.domain.dto.UserDto;
+import com.example.demo.domain.dto.UserWordDto;
 import com.example.demo.domain.vo.UserVo;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.service.UserService;
@@ -50,20 +51,22 @@ public class UserServiceImpl implements UserService {
     }
     /**
      * excel插入数据库
-     * @param users
+     * @param user
      */
     @Override
-    public void saveData(List<User> users) {
+    public void saveData(List<User> user) {
 
 
 //          Date data = new Date();
-////        user.setCertificateNumber("XB"+new SimpleDateFormat("yyyMMddhhmmss").format(data));
-//        for (User user: users) {
-//            String s =    "HG"+new SimpleDateFormat("yyyMMddhh").format(data);
-//            String ss =(s+((int)(Math.random()*1000)));
-//            user.setCertificateNumber(ss);
+//         user.setCertificateNumber("XB"+new SimpleDateFormat("yyyMMddhhmmss").format(data));
+//       for (User users: user) {
+//            String s =    new SimpleDateFormat("yyyy-MM-dd").format(users.getTimeOne());
+////            String ss =(s+((int)(Math.random()*1000)));
+//
+//            users.setTimeOne(s);
 //        }
-        userMapper.insertUser(users);
+
+        userMapper.insertUser(user);
 
 
     }
@@ -74,9 +77,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public String getUserInfo(User user) {
         User userInfo = userMapper.getUserInfo(user.getId());
-//        userInfo.setTimeOne(new SimpleDateFormat("yyyy.MM.dd  ").format(user.getTimeOne()));
+ //       userInfo.setTimeOne(new SimpleDateFormat("yyyy--MM--dd").format(user.getTimeOne()));
 //        userInfo.setTimeTwo(new SimpleDateFormat("yyyy   MM   dd").format(user.getTimeTwo()));
         try {
+            UserWordDto userWordDto = new UserWordDto();
+            BeanUtils.copyProperties(userInfo,userWordDto);
+            userWordDto.setTimeOne(new SimpleDateFormat("yyyy.MM.dd").format(userInfo.getTimeOne()));
+            userWordDto.setTimeTwo(new SimpleDateFormat("yyyy   MM   dd").format(userInfo.getTimeTwo()));
             Configuration configuration = new Configuration(new Version("2.3.0"));
             configuration.setDefaultEncoding("utf-8");
             configuration.setDirectoryForTemplateLoading(new File(SOURCE_URL));
@@ -84,7 +91,7 @@ public class UserServiceImpl implements UserService {
             File outFile = new File(TARGET_URL+"/" + name);
             Template template = configuration.getTemplate("test.ftl", "utf-8");
             Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile), "utf-8"), 10240);
-            template.process(userInfo, out);
+            template.process(userWordDto, out);
             out.close();
             return baseUrl+name;
 
@@ -139,7 +146,7 @@ public class UserServiceImpl implements UserService {
 //        UserDto userInfoByIdCard = userMapper.getUserInfoByIdCard(user.getIdcard());
 
         if (userInfo!=null){
-            if (userInfo.getId() !=user.getId())
+            if (!userInfo.getId().equals(user.getId()))
                 return "修改失败，身份证信息重复";
         }
 
@@ -168,10 +175,9 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public List<User> findname(User user) {
+    public List<User> findName(User user) {
+        return userMapper.findName(user.getName());
 
-
-        return userMapper.findname(user.getName());
     }
 
 

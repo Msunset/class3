@@ -55,6 +55,7 @@ public class UserController {
             List<User> list = new ArrayList<User>();
 
 
+
             @Override
             public void invoke(User user, AnalysisContext analysisContext) {
                 list.add(user);
@@ -144,12 +145,10 @@ public class UserController {
 
     }
 
-    @PostMapping("/findname")
+    @PostMapping("/findName")
     @ApiOperation("根据姓名查询")
-    public List<User> findname(@RequestBody User user){
-
-       return userService.findname(user);
-
+    public List<User> findName(@RequestBody User user){
+       return userService.findName(user);
     }
 
 }
