@@ -96,8 +96,6 @@
 
     </select>
 
-
-
     <!--<insert id="addUser" parameterType="User">
         insert int 'User'('name','sex','age','jg','record','phone','idcard','certificate_number')
         VALUES
