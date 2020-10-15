@@ -70,6 +70,6 @@ public interface UserMapper {
      * @param name
      * @return
      */
-    List<User> findname(String name);
+    List<User> findName(String name);
 
 }
