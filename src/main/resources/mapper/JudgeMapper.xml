@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.JudgeMapper">
+
+  <resultMap id="BaseResultMap" type="com.example.demo.domain.Judge">
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="title" jdbcType="LONGVARCHAR" property="title"/>
+    <result column="answer" jdbcType="LONGVARCHAR" property="answer"/>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" extends="BaseResultMap" type="com.example.demo.domain.Judge">
+    <result column="title" jdbcType="LONGVARCHAR" property="title"/>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                      #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                      #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    `id`,  `title`,`answer`
+  </sql>
+  <sql id="Blob_Column_List">
+    `title`
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.example.demo.domain.JudgeExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from `judge`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.example.demo.domain.JudgeExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List"/>
+    from `judge`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List"/>
+    ,
+    <include refid="Blob_Column_List" />
+    from `judge`
+    where `id` = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from `judge`
+    where `id` = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.demo.domain.JudgeExample">
+    delete from `judge`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.domain.Judge">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `judge` (
+      `title`, 
+      `answer`
+    )
+    values (
+      #{title,jdbcType=LONGVARCHAR}, 
+      #{answer,jdbcType=LONGVARCHAR}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.domain.Judge">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `judge`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+      `title`,
+      </if>
+      <if test="answer != null">
+      `answer`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        #{title,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="answer != null">
+        #{answer,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.demo.domain.JudgeExample" resultType="java.lang.Integer">
+    select count(*) from `judge`
+    <if test="_parameter != null">
+    <include refid="Example_Where_Clause"/>
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update `judge`
+    <set>
+      <if test="record.answer != null">
+      `answer` = #{record.answer,jdbcType=LONGVARCHAR}
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause"/>
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update `judge`
+    <set>
+      `title` = #{record.title,jdbcType=LONGVARCHAR}, 
+      `answer` = #{record.answer,jdbcType=LONGVARCHAR}
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update `judge`
+    <set>
+      `answer` = #{record.answer,jdbcType=LONGVARCHAR}
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause"/>
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.domain.Judge">
+    update `judge`
+    <set>
+      <if test="answer != null">
+      `answer` = #{answer,jdbcType=LONGVARCHAR}
+      </if>
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.demo.domain.Judge">
+    update `judge`
+    <set>
+    `title` = #{title,jdbcType=LONGVARCHAR}, 
+    `answer` = #{answer,jdbcType=LONGVARCHAR}
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.domain.Judge">
+    update `judge`
+    <set>
+      `answer` = #{answer,jdbcType=LONGVARCHAR}
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+
+
+  <!--*******判断题导入sql语句******-->
+  <insert id="saveJudgeTitle" parameterType="com.example.demo.domain.Judge">
+    insert into judge(title,answer)
+    values
+    <foreach collection="list" item="it" separator="," close=";">
+      (
+       #{it.title,jdbcType=LONGVARCHAR},
+       #{it.answer,jdbcType=LONGVARCHAR}
+      )
+    </foreach>
+  </insert>
+</mapper>

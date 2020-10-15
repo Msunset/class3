@@ -66,7 +66,7 @@ public interface UserMapper {
     List<User> findById(Integer id);
 
     /**
-     * 根据年龄来查询
+     * 根据姓名来查询
      * @param name
      * @return
      */

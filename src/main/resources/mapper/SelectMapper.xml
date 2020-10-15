@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.SelectMapper">
+
+  <resultMap id="BaseResultMap" type="com.example.demo.domain.Select">
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="title" jdbcType="LONGVARCHAR" property="title"/>
+    <result column="select_a" jdbcType="LONGVARCHAR" property="selectA"/>
+    <result column="select_b" jdbcType="LONGVARCHAR" property="selectB"/>
+    <result column="select_c" jdbcType="LONGVARCHAR" property="selectC"/>
+    <result column="select_d" jdbcType="LONGVARCHAR" property="selectD"/>
+    <result column="answer" jdbcType="LONGVARCHAR" property="answer"/>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" extends="BaseResultMap" type="com.example.demo.domain.Select">
+    <result column="title" jdbcType="LONGVARCHAR" property="title"/>
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                      #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                      #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    `id`, `select_a`,    `title`, `select_b`, `select_c`, `select_d`, `answer`
+  </sql>
+  <sql id="Blob_Column_List">
+    `title`
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.example.demo.domain.SelectExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from `select`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.example.demo.domain.SelectExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List"/>
+    from `select`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List"/>
+    ,
+    <include refid="Blob_Column_List" />
+    from `select`
+    where `id` = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from `select`
+    where `id` = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.example.demo.domain.SelectExample">
+    delete from `select`
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.example.demo.domain.Select">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `select` (
+      `title`, 
+      `select_a`, 
+      `select_b`, 
+      `select_c`, 
+      `select_d`, 
+      `answer`
+    )
+    values (
+      #{title,jdbcType=LONGVARCHAR}, 
+      #{selectA,jdbcType=LONGVARCHAR}, 
+      #{selectB,jdbcType=LONGVARCHAR}, 
+      #{selectC,jdbcType=LONGVARCHAR}, 
+      #{selectD,jdbcType=LONGVARCHAR}, 
+      #{answer,jdbcType=LONGVARCHAR}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="com.example.demo.domain.Select">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into `select`
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+      `title`,
+      </if>
+      <if test="selectA != null">
+      `select_a`,
+      </if>
+      <if test="selectB != null">
+      `select_b`,
+      </if>
+      <if test="selectC != null">
+      `select_c`,
+      </if>
+      <if test="selectD != null">
+      `select_d`,
+      </if>
+      <if test="answer != null">
+      `answer`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="title != null">
+        #{title,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="selectA != null">
+        #{selectA,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="selectB != null">
+        #{selectB,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="selectC != null">
+        #{selectC,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="selectD != null">
+        #{selectD,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="answer != null">
+        #{answer,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.example.demo.domain.SelectExample" resultType="java.lang.Integer">
+    select count(*) from `select`
+    <if test="_parameter != null">
+    <include refid="Example_Where_Clause"/>
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update `select`
+    <set>
+      <if test="record.selectA != null">
+      `select_a` = #{record.selectA,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="record.selectB != null">
+      `select_b` = #{record.selectB,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="record.selectC != null">
+      `select_c` = #{record.selectC,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="record.selectD != null">
+      `select_d` = #{record.selectD,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="record.answer != null">
+      `answer` = #{record.answer,jdbcType=LONGVARCHAR}
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause"/>
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update `select`
+    <set>
+      `title` = #{record.title,jdbcType=LONGVARCHAR}, 
+      `select_a` = #{record.selectA,jdbcType=LONGVARCHAR}, 
+      `select_b` = #{record.selectB,jdbcType=LONGVARCHAR}, 
+      `select_c` = #{record.selectC,jdbcType=LONGVARCHAR}, 
+      `select_d` = #{record.selectD,jdbcType=LONGVARCHAR}, 
+      `answer` = #{record.answer,jdbcType=LONGVARCHAR}
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update `select`
+    <set>
+      `select_a` = #{record.selectA,jdbcType=LONGVARCHAR}, 
+      `select_b` = #{record.selectB,jdbcType=LONGVARCHAR}, 
+      `select_c` = #{record.selectC,jdbcType=LONGVARCHAR}, 
+      `select_d` = #{record.selectD,jdbcType=LONGVARCHAR}, 
+      `answer` = #{record.answer,jdbcType=LONGVARCHAR}
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause"/>
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.domain.Select">
+    update `select`
+    <set>
+      <if test="selectA != null">
+      `select_a` = #{selectA,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="selectB != null">
+      `select_b` = #{selectB,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="selectC != null">
+      `select_c` = #{selectC,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="selectD != null">
+      `select_d` = #{selectD,jdbcType=LONGVARCHAR}, 
+      </if>
+      <if test="answer != null">
+      `answer` = #{answer,jdbcType=LONGVARCHAR}
+      </if>
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.example.demo.domain.Select">
+    update `select`
+    <set>
+    `title` = #{title,jdbcType=LONGVARCHAR}, 
+    `select_a` = #{selectA,jdbcType=LONGVARCHAR}, 
+    `select_b` = #{selectB,jdbcType=LONGVARCHAR}, 
+    `select_c` = #{selectC,jdbcType=LONGVARCHAR}, 
+    `select_d` = #{selectD,jdbcType=LONGVARCHAR}, 
+    `answer` = #{answer,jdbcType=LONGVARCHAR}
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.domain.Select">
+    update `select`
+    <set>
+      `select_a` = #{selectA,jdbcType=LONGVARCHAR}, 
+      `select_b` = #{selectB,jdbcType=LONGVARCHAR}, 
+      `select_c` = #{selectC,jdbcType=LONGVARCHAR}, 
+      `select_d` = #{selectD,jdbcType=LONGVARCHAR}, 
+      `answer` = #{answer,jdbcType=LONGVARCHAR}
+    </set>
+    where `id` = #{id,jdbcType=INTEGER}
+  </update>
+
+
+
+<!--*******选择题导入sql语句******-->
+  <insert id="saveSelectTitle" parameterType="com.example.demo.domain.Select">
+    insert into `select`(title,select_a,select_b,select_c,select_d,answer)
+    VALUES
+    <foreach collection="list" item="it" separator="," close=";">
+      (
+        #{it.title,jdbcType=LONGVARCHAR},
+        #{it.selectA,jdbcType=LONGVARCHAR},
+        #{it.selectB,jdbcType=LONGVARCHAR},
+        #{it.selectC,jdbcType=LONGVARCHAR},
+        #{it.selectD,jdbcType=LONGVARCHAR},
+        #{it.answer,jdbcType=LONGVARCHAR}
+      )
+    </foreach>
+  </insert>
+</mapper>
