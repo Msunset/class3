@@ -36,7 +36,7 @@ public class TestPaperController {
     }
 
     @PostMapping("/excelSelect")
-    @ApiOperation("选择题导入")
+    @ApiOperation("excel选择题导入")
     public String test(MultipartFile file) throws IOException {
         EasyExcel.read(file.getInputStream(), Select.class, new AnalysisEventListener<Select>() {
             private static final int BATCH_COUNT = 3000;
@@ -63,7 +63,7 @@ public class TestPaperController {
     }
 
     @PostMapping("/excelJudge")
-    @ApiOperation("判断题导入")
+    @ApiOperation("excel判断题导入")
     public String testOne(MultipartFile file) throws IOException {
         EasyExcel.read(file.getInputStream(), Judge.class, new AnalysisEventListener<Judge>() {
             private static final int BATCH_COUNT = 3000;

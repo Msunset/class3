@@ -93,7 +93,6 @@ public class TestPaperService {
 
         selectMapper.saveSelectTitle(select);
     }
-
     //插入判断题
     public void judgeTitle(List<Judge> judges){
 
