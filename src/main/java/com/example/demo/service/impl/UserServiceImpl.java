@@ -177,7 +177,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public String findname(User user) {
 
-        List<User> findname = userMapper.findname(user.getName());
+        List<User> findname = userMapper.findName(user.getName());
         if (findname.equals(user.getName())){
                 return "查无此人";
 
